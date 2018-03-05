@@ -1,9 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createLogger from 'vuex/dist/logger'
+import router from '../router'
 
 import snack from './snack'
-import router from '../router'
+import classes from './classes'
+import modules from './modules'
+import teachers from './teachers'
 
 Vue.use(Vuex)
 
@@ -15,16 +18,9 @@ export default new Vuex.Store({
     isDark: false,
     isLoggedIn: false,
     user: null,
-    selectedStudent: null,
   },
 
   mutations: {
-    SELECT_STUDENT: (state, payload) => {
-      state.selectedStudent = payload
-    },
-    DESELECT_STUDENT: () => {
-      state.selectedStudent = null
-    },
     LOGIN_FAILURE: (state, payload) => {
       state.loading = false
     },
@@ -39,7 +35,9 @@ export default new Vuex.Store({
     LOGIN_LOADING: (state, payload) => {
       state.loading = true;
     },
-
+    TOGGLE_DARK_MODE: (state) => {
+      state.isDark = !state.isDark;
+    }
   },
   
   actions: {
@@ -63,6 +61,9 @@ export default new Vuex.Store({
 
   modules: {
     snack,
+    classes,
+    modules,
+    teachers,
   },
 
   strict: debug,

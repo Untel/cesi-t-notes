@@ -28,6 +28,9 @@
     <v-toolbar
       app
     >
+        <v-btn icon @click.native.stop="TOGGLE_DARK_MODE()" >
+          <v-icon>lightbulb_outline</v-icon>
+        </v-btn>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title v-text="title"></v-toolbar-title>
       <v-spacer></v-spacer>
@@ -39,6 +42,8 @@
 </template>
 
 <script>
+import { mapMutations, mapState, mapActions } from 'vuex'
+
 export default {
   data () {
     return {
@@ -49,13 +54,21 @@ export default {
         icon: 'dashboard',
         roles: ['admin', 'teacher', 'student'],
       }, {
-        name: 'Gestion élèves',
+        name: 'Promotions',
         path: '/students',
         icon: 'person',
+        roles: ['admin'],
+      }, {
+        name: 'Modules',
+        path: '/modules',
+        icon: 'view_module',
         roles: ['admin'],
       }],
       title: 'CESI'
     }
+  },
+  methods: {
+    ...mapMutations(['TOGGLE_DARK_MODE']),
   },
   name: 'BasicLayout'
 }

@@ -38,15 +38,16 @@
 
     computed: {
       ...mapState({
-        student: state => state.selectedStudent
+        student: state => state.classes.selectedStudent
       })
     },
 
     created() {
+      this.$store.dispatch('classes/getClasses');
     },
 
     methods: {
-      ...mapMutations(['SELECT_STUDENT'])
+      ...mapMutations('classes', ['SELECT_STUDENT'])
     }
   }
 </script>

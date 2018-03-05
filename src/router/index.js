@@ -2,28 +2,49 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/containers/Login'
 import BasicLayout from '@/containers/BasicLayout'
-import ManageStudents from '@/containers/ManageStudents'
+import EmptyLayout from '@/containers/EmptyLayout'
+
+import ManageClasses from '@/containers/Admin/ManageClasses'
+import ManageModules from '@/containers/Admin/ManageModules'
+import NewModule from '@/containers/Admin/NewModule'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/login',
+      path: 'login',
       name: 'Login',
       component: Login
     },
     {
-      path: '/',
+      path: '',
       name: 'Application',
       component: BasicLayout,
       children: [
         {
-          path: '/students',
-          name: 'AdminManageStudents',
-          component: ManageStudents,
+          path: 'classes',
+          name: 'AdminManageClasses',
+          component: ManageClasses,
         },
-    ]
+        {
+          path: 'modules',
+          // name: 'AdminModules',
+          component: EmptyLayout,
+          children: [
+            {
+              path: '',
+              name: 'AdminManageModules',
+              component: ManageModules,
+            },
+            {
+              path: 'new',
+              name: 'AdminNewModule',
+              component: NewModule,
+            },
+          ]
+        },
+      ]
     }
   ]
 })

@@ -39,9 +39,8 @@ export default {
       snack: state => state.snack,
     }),
   },
-  methods: {
-    ...mapActions(['']),
-    ...mapMutations('snack', ['CLOSE_SNACK']),    
+  methods: {  
+    ...mapMutations('snack', ['CLOSE_SNACK']),
   }
 }
 </script>
