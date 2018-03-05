@@ -17,7 +17,9 @@
             :type="!passwordVisible ? 'password' : 'text'"
             @keyup.enter="login({ username, password })"
           ></v-text-field>
-          <v-btn color="primary" :disabled="loading === true" @click.native="login({ username, password })">Connection</v-btn>
+          <div class="btn-center">
+            <v-btn color="primary" :disabled="loading === true" @click.native="login({ username, password })">Connection</v-btn>
+          </div>
         </v-container>
       </v-navigation-drawer>
   </v-layout>
@@ -26,6 +28,11 @@
 <style scoped lang="scss">
   .login-container {
     height: 100%;
+
+    .btn-center {
+      justify-content: center;
+      display:flex;
+    }
 
     img {
       height: 100%;
