@@ -55,7 +55,7 @@ export default {
         roles: ['admin', 'teacher', 'student'],
       }, {
         name: 'Promotions',
-        path: '/students',
+        path: '/classes',
         icon: 'person',
         roles: ['admin'],
       }, {
