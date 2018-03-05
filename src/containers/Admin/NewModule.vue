@@ -32,10 +32,10 @@
             v-model="newModule.classId"
             item-text="name"
             item-value="id"
-            ></v-select>
+          ></v-select>
 
         </v-layout>
-      </v-card-text>    
+      </v-card-text>
 
       <v-card-actions>
         <v-spacer/>

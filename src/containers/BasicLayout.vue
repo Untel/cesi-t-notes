@@ -10,6 +10,7 @@
     >
       <v-list>
         <v-list-tile
+          v-if="isAllowed(item.roles)"
           value="true"
           v-for="(item, i) in menu"
           :key="i"
@@ -28,6 +29,7 @@
     <v-toolbar
       app
     >
+        <pre>{{ user }}</pre>
         <v-btn icon @click.native.stop="TOGGLE_DARK_MODE()" >
           <v-icon>lightbulb_outline</v-icon>
         </v-btn>
@@ -42,7 +44,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState, mapActions } from 'vuex'
+import { mapMutations, mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   data () {
@@ -63,12 +65,21 @@ export default {
         path: '/modules',
         icon: 'view_module',
         roles: ['admin'],
+      }, {
+        name: 'Modules',
+        path: '/mymodules',
+        icon: 'view_module',
+        roles: ['teacher'],
       }],
       title: 'CESI'
     }
   },
   methods: {
     ...mapMutations(['TOGGLE_DARK_MODE']),
+  },
+  computed: {
+    ...mapGetters(['isAllowed']),
+    ...mapState(['user']),
   },
   name: 'BasicLayout'
 }

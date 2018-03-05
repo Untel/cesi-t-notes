@@ -55,7 +55,7 @@
 
     methods: {
       ...mapActions(['login']),
-      ...mapMutations(['']),    
+      ...mapMutations(['']),
     }
   }
 </script>

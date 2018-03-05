@@ -21,11 +21,11 @@ Vue.use(Vuetify, { theme: {
 Vue.config.productionTip = false
 
 Vue.api = Vue.prototype.$api = axios.create({ 
-  baseURL: 'http://localhost:1664/',
+  baseURL: 'http://localhost:8000/',
   headers: {
+    'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
     'Content-type': 'application/json',
   }
 });

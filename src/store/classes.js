@@ -17,12 +17,6 @@ export default {
     DESELECT_STUDENT: () => {
       state.selectedStudent = null
     },
-    ADD_STUDENT: (state, { classId, student }) => {
-      const classToAdd = state.classes.find(name === classId);
-      if (classToAdd) {
-        classToAdd.unshift(student);
-      }
-    },
     ADD_CLASSES_LOADING: (state) => {
       state.addClassLoading = true
     },
@@ -44,11 +38,17 @@ export default {
       state.getClassesLoading = false
     },
   },
+
+  getters: {
+    getClassesByFormation: (state) => (formationId) => {
+      state.classes.filter(c => c.formationId === formationId);
+    }
+  },
   
   actions: {
     addClass: ({ commit, dispatch, state }, newClass) => {
       commit('ADD_CLASS_LOADING', newClass);
-      Vue.api.post('/class', newClass)
+      Vue.api.post('/formations', newClass)
         .then(() => {
           commit('ADD_CLASS_SUCCESS', newClass);
           dispatch('snack/openSnack', { color: 'success', message: 'La promotion à bien été ajouté' }, { root: true })
@@ -64,141 +64,32 @@ export default {
       commit('GET_CLASSES_LOADING', newClass)
       const data = [
         {
-          name: 'RIL 2017',
-          students: [
-            { id: 1, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 2, firstname: 'Kevin', lastname: 'Buzit' },
-            { id: 3, firstname: 'Kevin', lastname: 'Fernandes' },
-            { id: 4, firstname: 'Adrien', lastname: 'Buzit' },
-            { id: 5, firstname: 'Kevin', lastname: 'Kevin' },
-            { id: 6, firstname: 'Kevin', lastname: 'Kevin' },
-            { id: 7, firstname: 'Kevin', lastname: 'Kevin' },
-            { id: 8, firstname: 'Kevin', lastname: 'Kevin' },
-            { id: 9, firstname: 'Kevin', lastname: 'Kevin' },              
-          ]
+          id: 1,
+          code: 'BR001',
+          year: 2015,
+          formationId: 2
         },
         {
-          name: 'RIRSR 2017',
-          students: [
-            { id: 1, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 2, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 3, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 4, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 5, firstname: 'Adrien', lastname: 'Fernandes' },
-          ]
+          id: 4,
+          code: 'BR005',
+          year: 2016,
+          formationId: 3
         },
         {
-          name: 'RIRSR 2017',
-          students: [
-            { id: 1, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 2, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 3, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 4, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 5, firstname: 'Adrien', lastname: 'Fernandes' },
-          ]
+          id: 3,
+          code: 'BR004',
+          year: 2017,
+          formationId: 2
         },
         {
-          name: 'RIRSR 2017',
-          students: [
-            { id: 1, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 2, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 3, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 4, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 5, firstname: 'Adrien', lastname: 'Fernandes' },
-          ]
+          id: 4,
+          code: 'BR003',
+          year: 2017,
+          formationId: 1
         },
-        {
-          name: 'RIRSR 2017',
-          students: [
-            { id: 1, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 2, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 3, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 4, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 5, firstname: 'Adrien', lastname: 'Fernandes' },
-          ]
-        },
-        {
-          name: 'RIRSR 2017',
-          students: [
-            { id: 1, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 2, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 3, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 4, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 5, firstname: 'Adrien', lastname: 'Fernandes' },
-          ]
-        },
-        {
-          name: 'RIRSR 2017',
-          students: [
-            { id: 1, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 2, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 3, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 4, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 5, firstname: 'Adrien', lastname: 'Fernandes' },
-          ]
-        },
-        {
-          name: 'RIRSR 2017',
-          students: [
-            { id: 1, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 2, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 3, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 4, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 5, firstname: 'Adrien', lastname: 'Fernandes' },
-          ]
-        },
-        {
-          name: 'RIRSR 2017',
-          students: [
-            { id: 1, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 2, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 3, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 4, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 5, firstname: 'Adrien', lastname: 'Fernandes' },
-          ]
-        },
-        {
-          name: 'RIRSR 2017',
-          students: [
-            { id: 1, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 2, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 3, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 4, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 5, firstname: 'Adrien', lastname: 'Fernandes' },
-          ]
-        },
-        {
-          name: 'RIRSR 2017',
-          students: [
-            { id: 1, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 2, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 3, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 4, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 5, firstname: 'Adrien', lastname: 'Fernandes' },
-          ]
-        },
-        {
-          name: 'RIRSR 2017',
-          students: [
-            { id: 1, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 2, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 3, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 4, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 5, firstname: 'Adrien', lastname: 'Fernandes' },
-          ]
-        },
-        {
-          name: 'RIRSR 2017',
-          students: [
-            { id: 1, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 2, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 3, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 4, firstname: 'Adrien', lastname: 'Fernandes' },
-            { id: 5, firstname: 'Adrien', lastname: 'Fernandes' },
-          ]
-        }
       ]
-      Vue.api.post('/class', newClass)
+
+      Vue.api.get('/formations', newClass)
         .then(() => {
           commit('GET_CLASSES_SUCCESS', data)
         })

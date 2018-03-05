@@ -7,6 +7,8 @@ import snack from './snack'
 import classes from './classes'
 import modules from './modules'
 import teachers from './teachers'
+import students from './students'
+import formations from './formations'
 
 Vue.use(Vuex)
 
@@ -29,7 +31,8 @@ export default new Vuex.Store({
       state.user = {
         firstname: 'yolo',
         lastname: 'yala',
-        role: 'admin',
+        role: 'teacher',
+        teacherId: 2,
       }
     },
     LOGIN_LOADING: (state, payload) => {
@@ -37,6 +40,12 @@ export default new Vuex.Store({
     },
     TOGGLE_DARK_MODE: (state) => {
       state.isDark = !state.isDark;
+    }
+  },
+
+  getters: {
+    isAllowed: (state, getters, rootState) => (roles) => {
+      return state.user && roles.includes(state.user.role);
     }
   },
   
@@ -50,10 +59,10 @@ export default new Vuex.Store({
         })
         .catch(() => {
           // TODO COMMENT HERE
-          // commit('LOGIN_SUCCESS');
-          // router.push({ path: '/' });
+          commit('LOGIN_SUCCESS');
+          router.push({ path: '/' });
           
-          commit('LOGIN_FAILURE');
+          // commit('LOGIN_FAILURE');
           dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue' })
         })
     },
@@ -64,6 +73,8 @@ export default new Vuex.Store({
     classes,
     modules,
     teachers,
+    students,
+    formations,
   },
 
   strict: debug,

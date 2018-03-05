@@ -8,12 +8,17 @@ import ManageClasses from '@/containers/Admin/ManageClasses'
 import ManageModules from '@/containers/Admin/ManageModules'
 import NewModule from '@/containers/Admin/NewModule'
 
+import MyModules from '@/containers/Teacher/ManageModules'
+
+
+import store from '@/store';
+
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
-      path: 'login',
+      path: '/login',
       name: 'Login',
       component: Login
     },
@@ -21,16 +26,18 @@ export default new Router({
       path: '',
       name: 'Application',
       component: BasicLayout,
+      meta: { roles: ['admin', 'teacher', 'student'] },
       children: [
         {
           path: 'classes',
           name: 'AdminManageClasses',
           component: ManageClasses,
+          meta: { roles: ['admin'] }
         },
         {
           path: 'modules',
-          // name: 'AdminModules',
           component: EmptyLayout,
+          meta: { roles: ['admin'] },
           children: [
             {
               path: '',
@@ -44,7 +51,35 @@ export default new Router({
             },
           ]
         },
+
+        {
+          path: 'mymodules',
+          component: EmptyLayout,
+          meta: { roles: ['teacher'] },
+          children: [
+            {
+              path: '',
+              name: 'TeacherMyModules',
+              component: MyModules,
+            },
+          ]
+        },
       ]
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  const hasToBeChecked = to.matched.find(m => m.meta.roles)
+  if (hasToBeChecked) {
+    if (store.getters.isAllowed(hasToBeChecked.meta.roles)) {
+      return next()
+    } else {
+      return next({ path: 'login' })
+    }
+  } else {
+    return next()
+  }
+});
+
+export default router;

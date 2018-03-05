@@ -6,7 +6,9 @@ export default {
   state: {
     addModuleLoading: false,
     getModulesLoading: false,
+    getMyModulesLoading: false,
     modules: [],
+    myModules: [],
   },
 
   mutations: {
@@ -31,10 +33,22 @@ export default {
       state.getModulesLoading = false
     },
   },
+
+  getters: {
+    myModules: (state, getters, rootState) => () => {
+      console.log(rootState.user, getters)
+      if (rootState.user.role === 'teacher' && rootState.user.teacherId) {
+        return state.modules.filter(m => m.teacherId === rootState.user.teacherId)
+      } else {
+        console.log('Not allowed')
+        return []
+      }
+    },
+  },
   
   actions: {
     addModule: ({ commit, dispatch, state }, newModule) => {
-      commit('ADD_MODULE_LOADING', newModule);
+      commit('ADD_MODULE_LOADING', newModule)
       Vue.api.post('/class', newModule)
         .then(() => {
           commit('ADD_MODULE_SUCCESS', newModule);
@@ -43,7 +57,7 @@ export default {
         })
         .catch(() => {
           // commit('ADD_MODULE_FAILURE');
-          commit('ADD_MODULE_SUCCESS', newModule);
+          commit('ADD_MODULE_SUCCESS', newModule)
           router.push('/modules')
           dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de l\'ajout du module' }, { root: true })
         })
