@@ -1,24 +1,29 @@
 <template>
-  <v-container fluid grid-list-md >
-    <v-layout row wrap>
-      <v-flex class="ma-2" v-for="_module in myModules()" v-bind:key="_module.id">
-        <v-card tile>
-          <v-card-title><h4>{{ _module.name }}</h4></v-card-title>
-          <v-divider></v-divider>
-            <v-select
-              :items="getClassesBytraining()">
-              
-            </v-select>
-          <v-divider></v-divider>
-          <v-list dense class="scrollable-list">
-            <v-list-tile v-for="student in getStudentsByClass()" v-bind:key="student.id">
-              <v-list-tile-content>{{ student.firstname }} {{ student.lastname }}</v-list-tile-content>
-            </v-list-tile>
-          </v-list>
-        </v-card>
-      </v-flex>
+  <v-layout column>
+    <v-layout column v-for="_module in myModules" v-bind:key="_module.idModule">
+      <v-layout row v-for="training in getTrainingsByModule(_module.idModule)" v-bind:key="training.id">
+        <v-flex class="ma-2" v-for="_class in getClassesByTraining(training.id)" v-bind:key="_class.id">
+          <v-card>
+            <v-card-title>
+              Module: {{ _module.title }}
+            </v-card-title>
+            <v-divider></v-divider>
+            <v-card-title>
+              Promotion: {{ getClassName(_class) }}
+            </v-card-title>
+            <v-divider></v-divider>
+            <v-list dense class="scrollable-list">
+              <v-list-tile v-for="_student in _class.students" v-bind:key="_student.id">
+                <v-list-tile-content>
+                  {{ getStudentNameById(_student.id) }}
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list>
+          </v-card>
+        </v-flex>
+      </v-layout>
     </v-layout>
-  </v-container>
+  </v-layout>
 </template>
 
 <style scoped lang="scss">
@@ -32,20 +37,22 @@
     name: 'Login',
     components: { },
     data: () => {
-      return {};
+      return {
+      };
     },
 
     created() {
-      this.$store.dispatch('modules/getModules');
-      this.$store.dispatch('students/getStudents');
+      this.$store.dispatch('modules/getMyModules');
+      this.$store.dispatch('trainings/getTrainings');
       this.$store.dispatch('classes/getClasses');
+      this.$store.dispatch('students/getStudents');
     },
 
     computed: {
-      ...mapState('modules', ['modules']),
-      ...mapGetters('modules', ['myModules', 'gettrainingByModule']),
-      ...mapGetters('trainings', ['getClassesBytraining']),
-      ...mapGetters('student', ['getStudentByClass']),
+      ...mapState('modules', ['myModules']),
+      ...mapGetters('trainings', ['getClassName', 'getTrainingsByModule']),
+      ...mapGetters('classes', ['getClassesByTraining']),
+      ...mapGetters('students', ['getStudentNameById']),
     },
 
     methods: {

@@ -7,6 +7,8 @@ import EmptyLayout from '@/containers/EmptyLayout'
 import ManageClasses from '@/containers/Admin/ManageClasses'
 import ManageModules from '@/containers/Admin/ManageModules'
 import NewModule from '@/containers/Admin/NewModule'
+import NewClass from '@/containers/Admin/NewClass'
+import NewStudent from '@/containers/Admin/NewStudent'
 
 import MyModules from '@/containers/Teacher/ManageModules'
 
@@ -30,9 +32,20 @@ const router = new Router({
       children: [
         {
           path: 'classes',
-          name: 'AdminManageClasses',
-          component: ManageClasses,
-          meta: { roles: ['admin'] }
+          component: EmptyLayout,
+          meta: { roles: ['admin'] },
+          children: [
+            {
+              path: '',
+              name: 'AdminManageClasses',
+              component: ManageClasses,
+            },
+            {
+              path: 'new',
+              name: 'AdminNewClass',
+              component: NewClass,
+            },
+          ]
         },
         {
           path: 'modules',
@@ -48,6 +61,19 @@ const router = new Router({
               path: 'new',
               name: 'AdminNewModule',
               component: NewModule,
+            },
+          ]
+        },
+
+        {
+          path: 'students',
+          component: EmptyLayout,
+          meta: { roles: ['admin'] },
+          children: [
+            {
+              path: 'new',
+              name: 'AdminNewStudent',
+              component: NewStudent,
             },
           ]
         },

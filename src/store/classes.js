@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import router from '@/router'
 
 export default {
   namespaced: true,
@@ -17,14 +18,14 @@ export default {
     DESELECT_STUDENT: () => {
       state.selectedStudent = null
     },
-    ADD_CLASSES_LOADING: (state) => {
+    ADD_CLASS_LOADING: (state) => {
       state.addClassLoading = true
     },
-    ADD_CLASSES_SUCCESS: (state, payload) => {
+    ADD_CLASS_SUCCESS: (state, payload) => {
       state.addClassLoading = false
       state.classes.unshift({ name: payload.name, students: [] });
     },
-    ADD_CLASSES_FAILURE: (state) => {
+    ADD_CLASS_FAILURE: (state) => {
       state.addClassLoading = false
     },
     GET_CLASSES_LOADING: (state) => {
@@ -40,8 +41,8 @@ export default {
   },
 
   getters: {
-    getClassesBytraining: (state) => (idtraining) => {
-      state.classes.filter(c => c.idTraining === idTraining);
+    getClassesByTraining: (state) => (idTraining) => {
+      return state.classes.filter(c => parseInt(c.idTraining, 10) === parseInt(idTraining, 10));
     },
   },
   
@@ -50,6 +51,7 @@ export default {
       commit('ADD_CLASS_LOADING', newClass);
       Vue.api.post('/trainingclass', [newClass])
         .then(() => {
+          router.push({ path: '/classes' })
           commit('ADD_CLASS_SUCCESS', newClass);
           dispatch('snack/openSnack', { color: 'success', message: 'La promotion à bien été ajouté' }, { root: true })
         })

@@ -26,6 +26,17 @@ export default {
       const training = state.trainings.find(t => t.id === parseInt(_class.idTraining))
       return `${training ? training.code : ''} ${_class.year} - ${_class.students.length} étudiant${_class.students.length > 1 ? 's' : ''}`
     },
+
+    getTrainingsByModule: (state, getters, rootState) => (moduleId) => {
+      console.log(moduleId);
+      return state.trainings.filter(t => {
+        console.log('Training ', t)
+        return t.modules.some(tm => {
+          console.log('TModule', tm)
+          return parseInt(tm.idModule, 10) === parseInt(moduleId, 10)
+        })
+      })
+    },
   },
 
   actions: {

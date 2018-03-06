@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import router from '@/router';
 
 export default {
   namespaced: true,
@@ -8,6 +9,17 @@ export default {
   },
 
   mutations: {
+
+    ADD_STUDENT_LOADING: (state) => {
+      state.addStudentLoading = true
+    },
+    ADD_STUDENT_SUCCESS: (state, payload) => {
+      state.addStudentLoading = false
+      state.students.unshift(payload);
+    },
+    ADD_STUDENT_FAILURE: (state) => {
+      state.addStudentLoading = false
+    },
     GET_STUDENTS_LOADING: (state) => {
       state.getStudentsLoading = true
     },
@@ -39,6 +51,7 @@ export default {
       commit('ADD_STUDENT_LOADING', newStudent);
       Vue.api.post('/students', newStudent)
         .then(() => {
+          router.push({ path: '/' })
           commit('ADD_STUDENT_SUCCESS', newStudent);
           dispatch('snack/openSnack', { color: 'success', message: 'L\'enseignant à bien été ajouté' }, { root: true })
         })

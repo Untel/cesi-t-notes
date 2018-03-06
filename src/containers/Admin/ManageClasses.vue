@@ -6,7 +6,7 @@
           <v-card-title><h4>Nouvelle promotion</h4></v-card-title>
           <v-divider></v-divider>
           <v-card-text class="text-xs-center">
-            <v-btn icon @click.native.stop="addClassModal = true">
+            <v-btn icon router to="/classes/new">
               <v-icon>add</v-icon>
             </v-btn>
           </v-card-text>
@@ -23,53 +23,15 @@
               </v-list-tile-content>
             </v-list-tile>
           </v-list>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn icon router to="/students/new">
+              <v-icon small>add</v-icon>
+            </v-btn>
+          </v-card-actions>
         </v-card>
       </v-flex>
     </v-layout>
-
-    <v-dialog
-      max-width="300"
-      v-model="addClassModal"
-      transition="dialog-bottom-transition"
-    >
-      <v-card tile>
-        <v-card-title class="headline">
-          Ajouter une promotion
-        </v-card-title>
-
-        <v-card-text>
-          <v-text-field
-            label="Code de la promotion"
-            v-model="newClass.code"
-            autofocus
-            @keyup.enter="validate"
-          ></v-text-field>
-          <v-text-field
-            label="Année"
-            type="number"
-            v-model="newClass.year"
-            @keyup.enter="validate"
-          ></v-text-field>
-          <v-select
-            label="Formation"
-            v-model="newClass.idTraining"
-            :items="trainings"
-            :loading="getTrainingsLoading"
-            item-text="title"
-            item-value="id">
-          </v-select>
-        </v-card-text>
-
-        {{ newClass }}
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn flat @click.native="addClassModal = false">Annuler</v-btn>
-          <v-btn color="primary" @click.native="addClass(newClass)">Ajouter</v-btn>
-        </v-card-actions>
-
-      </v-card>
-    </v-dialog>
 
     <student-modal></student-modal>
   </v-container>

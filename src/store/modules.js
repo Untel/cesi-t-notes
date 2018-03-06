@@ -22,6 +22,7 @@ export default {
     ADD_MODULE_FAILURE: (state) => {
       state.addModuleLoading = false
     },
+    
     GET_MODULES_LOADING: (state) => {
       state.getModulesLoading = true
     },
@@ -32,14 +33,26 @@ export default {
     GET_MODULES_FAILURE: (state) => {
       state.getModulesLoading = false
     },
+
+    GET_MY_MODULES_LOADING: (state) => {
+      state.getMyModulesLoading = true
+    },
+    GET_MY_MODULES_SUCCESS: (state, payload) => {
+      state.myModules = payload;
+      state.getMyModulesLoading = false
+    },
+    GET_MY_MODULES_FAILURE: (state) => {
+      state.getMyModulesLoading = false
+    },
   },
 
   getters: {
     myModules: (state, getters, rootState) => () => {
       console.log(rootState.user, getters)
-      if (rootState.user.role === 'teacher' && rootState.user.idTeacher) {
+      if (rootState.user.role === 'teacher' && !!rootState.user.idTeacher) {
         return state.modules.filter(m => m.idTeacher === rootState.user.idTeacher)
       } else {
+        console.log('No module for u')
         return []
       }
     },
@@ -59,8 +72,7 @@ export default {
           dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de l\'ajout du module' }, { root: true })
         })
     },
-    getModules: ({ commit, dispatch, state }, newModule) => {
-
+    getModules: ({ commit, dispatch, state }) => {
       if (state.modules.length > 0) return;
 
       commit('GET_MODULES_LOADING')
@@ -71,6 +83,19 @@ export default {
         .catch((err) => {
           commit('GET_MODULES_FAILURE')
           dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de la récupération des modules' }, { root: true })
+        })
+    },
+    getMyModules: ({ commit, dispatch, state, rootState }) => {
+      if (state.myModules.length > 0) return;
+
+      commit('GET_MY_MODULES_LOADING')
+      Vue.api.get(`/teachersmodules/${rootState.user.idTeacher}`)
+        .then(({data}) => {
+          commit('GET_MY_MODULES_SUCCESS', data)
+        })
+        .catch((err) => {
+          commit('GET_MY_MODULES_FAILURE')
+          dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de la récuparation de vos modules' }, { root: true })
         })
     },
   },

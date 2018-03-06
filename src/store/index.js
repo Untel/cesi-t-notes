@@ -31,7 +31,7 @@ export default new Vuex.Store({
       state.user = {
         firstname: 'yolo',
         lastname: 'yala',
-        role: 'admin',
+        role: 'teacher',
         idTeacher: 2,
       }
     },

@@ -21,8 +21,13 @@ export default {
   },
 
   getters: {
-    getTeacherById: (state, getters) => (id) => {
-      return state.teachers.find(t => t.id === id)
+    getTeacherNameById: (state, getters) => (id) => {
+      const teacher = state.teachers.find(t => t.teacherId === id)
+      if (teacher) {
+        return `${teacher.firstname} ${teacher.name}`
+      } else {
+        return 'N/A';
+      }
     }
   },
   

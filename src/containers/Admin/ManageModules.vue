@@ -14,10 +14,13 @@
       </v-flex>
       <v-flex class="ma-2" v-for="_module in modules" v-bind:key="_module.id">
         <v-card tile>
-          <v-card-title><h4>{{ _module.name }}</h4></v-card-title>
+          <v-card-title>
+            <h4>{{ _module.title }}</h4>
+          </v-card-title>
           <v-divider></v-divider>
           <v-card-text>
-            Enseignant: {{ getTeacherById(_module.idTeacher) ? getTeacherById(_module.idTeacher).name : '' }}
+            <div>{{ _module.content }}</div>
+            <b>Enseignant:</b> {{ getTeacherNameById(_module.idTeacher) }}
           </v-card-text>
         </v-card>
       </v-flex>
@@ -78,7 +81,7 @@
     computed: {
       ...mapState('modules', ['modules']),
       ...mapState('teachers', ['teachers']),
-      ...mapGetters('teachers', ['getTeacherById'])
+      ...mapGetters('teachers', ['getTeacherNameById'])
     },
 
     methods: {

@@ -29,10 +29,10 @@
             v-model="newModule.idTeacher"
             item-value="id"
             >
-              <template slot="item" scope="data">
+              <template slot="item" slot-scope="data">
                 {{ data.item.firstname }} {{ data.item.name }}
               </template>
-              <template slot="selection" scope="data">
+              <template slot="selection" slot-scope="data">
                 {{ data.item.firstname[0] }}. {{ data.item.name }}
               </template>
             </v-select>
@@ -46,10 +46,10 @@
             item-text="code"
             item-value="id"
           >
-            <template slot="item" scope="data">
+            <template slot="item" slot-scope="data">
               {{ data.item.title }}
             </template>
-            <template slot="selection" scope="data">
+            <template slot="selection" slot-scope="data">
               {{ data.item.code }}
             </template>
           </v-select>
