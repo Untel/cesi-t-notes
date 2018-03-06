@@ -1,11 +1,12 @@
 <template>
   <v-layout class="login-container">
-    <img src="@/assets/login_bg.jpg" alt="">
+    <div class="bg-img"></div>
     <v-navigation-drawer
       permanent
       right
       fixed
       app
+      class="login-form"
       >
         <v-container column>
           <v-text-field label="Nom d'utilisateur" v-model="username"></v-text-field>
@@ -28,6 +29,19 @@
 <style scoped lang="scss">
   .login-container {
     height: 100%;
+
+    .login-form {
+      display: flex;
+      min-width: 300px;
+      width: calc(100% - 989px)!important;
+      max-width: calc(100% - 989px);
+    }
+
+    .bg-img {
+      background: url(/static/img/login_bg.40500cf.jpg);
+      width: 100%;
+      background-repeat: no-repeat;
+    }
 
     .btn-center {
       justify-content: center;
