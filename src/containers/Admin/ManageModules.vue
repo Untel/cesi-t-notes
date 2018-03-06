@@ -17,7 +17,7 @@
           <v-card-title><h4>{{ _module.name }}</h4></v-card-title>
           <v-divider></v-divider>
           <v-card-text>
-            Enseignant: {{ getTeacherById(_module.teacherId) ? getTeacherById(_module.teacherId).name : '' }}
+            Enseignant: {{ getTeacherById(_module.idTeacher) ? getTeacherById(_module.idTeacher).name : '' }}
           </v-card-text>
         </v-card>
       </v-flex>

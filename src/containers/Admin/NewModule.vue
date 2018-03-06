@@ -6,7 +6,7 @@
       </v-card-title>
       <v-card-text>
 
-        <v-layout>
+        <v-layout column>
 
           <v-text-field
             class="ma-3"
@@ -14,25 +14,45 @@
             v-model="newModule.name">
           </v-text-field>
 
+          <v-text-field
+            textarea
+            class="ma-3"
+            label="Contenu"
+            v-model="newModule.content">
+          </v-text-field>
+
           <v-select
             class="ma-3"
             label="Enseignant"
             :items="teachers"
             :loading="getTeachersLoading"
-            v-model="newModule.teacherId"
-            item-text="name"
+            v-model="newModule.idTeacher"
             item-value="id"
-            ></v-select>
+            >
+              <template slot="item" scope="data">
+                {{ data.item.firstname }} {{ data.item.name }}
+              </template>
+              <template slot="selection" scope="data">
+                {{ data.item.firstname[0] }}. {{ data.item.name }}
+              </template>
+            </v-select>
 
           <v-select
             class="ma-3"
             label="Promotion"
-            :items="classes"
-            :loading="getTeachersLoading"
-            v-model="newModule.classId"
-            item-text="name"
+            :items="trainings"
+            :loading="getTrainingsLoading"
+            v-model="newModule.idClass"
+            item-text="code"
             item-value="id"
-          ></v-select>
+          >
+            <template slot="item" scope="data">
+              {{ data.item.title }}
+            </template>
+            <template slot="selection" scope="data">
+              {{ data.item.code }}
+            </template>
+          </v-select>
 
         </v-layout>
       </v-card-text>
@@ -50,7 +70,7 @@
 </style>
 
 <script>
-  import { mapMutations, mapState, mapActions } from 'vuex'
+  import { mapMutations, mapState, mapActions, mapGetters } from 'vuex'
 
   export default {
     name: 'NewModule',
@@ -60,20 +80,22 @@
         addModuleModal: false,
         newModule: {
           name: '',
-          teacherId: null,
-          classId: null,
+          idTeacher: null,
+          idClass: null,
         },
       }
     },
 
     created() {
       this.$store.dispatch('teachers/getTeachers');
-      this.$store.dispatch('classes/getClasses');
+      this.$store.dispatch('trainings/getTrainings');
     },
 
     computed: {
       ...mapState('teachers', ['teachers', 'getTeachersLoading']),
-      ...mapState('classes', ['classes', 'getClassesLoading']),
+      // ...mapState('classes', ['classes', 'getClassesLoading']),
+      ...mapState('trainings', ['trainings', 'getTrainingsLoading']),
+      ...mapGetters('trainings', ['getClassName']),
       ...mapState('modules', ['addModuleLoading']),
     },
 

@@ -8,7 +8,7 @@ import classes from './classes'
 import modules from './modules'
 import teachers from './teachers'
 import students from './students'
-import formations from './formations'
+import trainings from './trainings'
 
 Vue.use(Vuex)
 
@@ -31,8 +31,8 @@ export default new Vuex.Store({
       state.user = {
         firstname: 'yolo',
         lastname: 'yala',
-        role: 'teacher',
-        teacherId: 2,
+        role: 'admin',
+        idTeacher: 2,
       }
     },
     LOGIN_LOADING: (state, payload) => {
@@ -63,7 +63,7 @@ export default new Vuex.Store({
           router.push({ path: '/' });
           
           // commit('LOGIN_FAILURE');
-          dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue' })
+          // dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue' })
         })
     },
   },
@@ -74,7 +74,7 @@ export default new Vuex.Store({
     modules,
     teachers,
     students,
-    formations,
+    trainings,
   },
 
   strict: debug,

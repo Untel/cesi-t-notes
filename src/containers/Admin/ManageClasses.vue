@@ -12,13 +12,15 @@
           </v-card-text>
         </v-card>
       </v-flex>
-      <v-flex class="ma-2" v-for="classe in classes" v-bind:key="classe.id">
+      <v-flex class="ma-2" v-for="_class in classes" v-bind:key="_class.id">
         <v-card tile>
-          <v-card-title><h4>{{ classe.name }}</h4></v-card-title>
+          <v-card-title><h4>{{ getClassName(_class) }}</h4></v-card-title>
           <v-divider></v-divider>
           <v-list dense class="scrollable-list">
-            <v-list-tile v-for="student in classe.students" v-bind:key="student.id">
-              <v-list-tile-content @click="SELECT_STUDENT(student)">{{ student.firstname }} {{ student.lastname }}</v-list-tile-content>
+            <v-list-tile v-for="_student in _class.students" v-bind:key="_student.id">
+              <v-list-tile-content>
+                {{ getStudentNameById(_student.id) }}
+              </v-list-tile-content>
             </v-list-tile>
           </v-list>
         </v-card>
@@ -37,17 +39,33 @@
 
         <v-card-text>
           <v-text-field
-            label="Nom de la promotion"
-            v-model="newClassName"
+            label="Code de la promotion"
+            v-model="newClass.code"
             autofocus
             @keyup.enter="validate"
           ></v-text-field>
+          <v-text-field
+            label="Année"
+            type="number"
+            v-model="newClass.year"
+            @keyup.enter="validate"
+          ></v-text-field>
+          <v-select
+            label="Formation"
+            v-model="newClass.idTraining"
+            :items="trainings"
+            :loading="getTrainingsLoading"
+            item-text="title"
+            item-value="id">
+          </v-select>
         </v-card-text>
+
+        {{ newClass }}
 
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn flat @click.native="addClassModal = false">Annuler</v-btn>
-          <v-btn color="primary" @click.native="addClass({ name: newClassName })">Ajouter</v-btn>
+          <v-btn color="primary" @click.native="addClass(newClass)">Ajouter</v-btn>
         </v-card-actions>
 
       </v-card>
@@ -65,7 +83,7 @@
 </style>
 
 <script>
-  import { mapMutations, mapState, mapActions } from 'vuex'
+  import { mapMutations, mapState, mapActions, mapGetters } from 'vuex'
   import StudentModal from '@/components/StudentModal'
   export default {
     name: 'Login',
@@ -76,22 +94,31 @@
         pagination: {
           rowsPerPage: 4
         },
-
         addClassModal: false,
-        newClassName: '',
+        newClass: {
+          code: '',
+          year: null,
+          idTraining: null,
+        },
       }
     },
 
     created() {
+      this.$store.dispatch('classes/getClasses');
+      this.$store.dispatch('trainings/getTrainings');
+      this.$store.dispatch('students/getStudents');
     },
 
     computed: {
       ...mapState('classes', ['classes', 'selectedStudent']),
+      ...mapState('trainings', ['trainings', 'getTrainingsLoading']),
+      ...mapGetters('trainings', ['getClassName']),
+      ...mapGetters('students', ['getStudentNameById']),
     },
 
     methods: {
       ...mapMutations('classes', ['SELECT_STUDENT', 'DESELECT_STUDENT']),
       ...mapActions('classes', ['addClass']),
-    }
+    },
   }
 </script>

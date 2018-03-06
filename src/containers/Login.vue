@@ -1,6 +1,6 @@
 <template>
   <v-layout class="login-container">
-    <img src="@/assets/login_bg.jpg" alt="">
+    <!-- <img src="@/assets/login_bg.jpg" alt=""> -->
     <v-navigation-drawer
       permanent
       right
@@ -26,6 +26,8 @@
 <style scoped lang="scss">
   .login-container {
     height: 100%;
+    background-image: url('/static/login_bg.jpg');
+    background-size: contain;
 
     img {
       height: 100%;

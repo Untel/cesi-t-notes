@@ -37,10 +37,9 @@ export default {
   getters: {
     myModules: (state, getters, rootState) => () => {
       console.log(rootState.user, getters)
-      if (rootState.user.role === 'teacher' && rootState.user.teacherId) {
-        return state.modules.filter(m => m.teacherId === rootState.user.teacherId)
+      if (rootState.user.role === 'teacher' && rootState.user.idTeacher) {
+        return state.modules.filter(m => m.idTeacher === rootState.user.idTeacher)
       } else {
-        console.log('Not allowed')
         return []
       }
     },
@@ -49,48 +48,28 @@ export default {
   actions: {
     addModule: ({ commit, dispatch, state }, newModule) => {
       commit('ADD_MODULE_LOADING', newModule)
-      Vue.api.post('/class', newModule)
+      Vue.api.post('/modules', newModule)
         .then(() => {
           commit('ADD_MODULE_SUCCESS', newModule);
           router.push('/modules')
           dispatch('snack/openSnack', { color: 'success', message: 'Le module à bien été ajouté' }, { root: true })
         })
         .catch(() => {
-          // commit('ADD_MODULE_FAILURE');
-          commit('ADD_MODULE_SUCCESS', newModule)
-          router.push('/modules')
+          commit('ADD_MODULE_FAILURE');
           dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de l\'ajout du module' }, { root: true })
         })
     },
     getModules: ({ commit, dispatch, state }, newModule) => {
-      const data = [{
-        id: 1,
-        name: 'Anglais',
-        teacherId: 1
-      }, {
-        id: 2,
-        name: 'Projet web',
-        teacherId: 2,
-      }, {
-        id: 3,
-        name: 'Anglais',
-        teacherId: 2,
-      }, {
-        id: 4,
-        name: 'Anglais',
-        teacherId: 3,
-      }]
 
       if (state.modules.length > 0) return;
 
-      commit('GET_MODULES_LOADING', newModule)
-      Vue.api.post('/class', newModule)
-        .then(() => {
+      commit('GET_MODULES_LOADING')
+      Vue.api.get('/modules')
+        .then(({data}) => {
           commit('GET_MODULES_SUCCESS', data)
         })
         .catch((err) => {
-          commit('GET_MODULES_SUCCESS', data)
-          // commit('GET_MODULES_FAILURE')
+          commit('GET_MODULES_FAILURE')
           dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de la récupération des modules' }, { root: true })
         })
     },

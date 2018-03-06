@@ -40,15 +40,15 @@ export default {
   },
 
   getters: {
-    getClassesByFormation: (state) => (formationId) => {
-      state.classes.filter(c => c.formationId === formationId);
-    }
+    getClassesBytraining: (state) => (idtraining) => {
+      state.classes.filter(c => c.idTraining === idTraining);
+    },
   },
   
   actions: {
     addClass: ({ commit, dispatch, state }, newClass) => {
       commit('ADD_CLASS_LOADING', newClass);
-      Vue.api.post('/formations', newClass)
+      Vue.api.post('/trainingclass', [newClass])
         .then(() => {
           commit('ADD_CLASS_SUCCESS', newClass);
           dispatch('snack/openSnack', { color: 'success', message: 'La promotion à bien été ajouté' }, { root: true })
@@ -61,41 +61,14 @@ export default {
     getClasses: ({ commit, dispatch, state }, newClass) => {
       if (state.classes.length > 0) return;
 
-      commit('GET_CLASSES_LOADING', newClass)
-      const data = [
-        {
-          id: 1,
-          code: 'BR001',
-          year: 2015,
-          formationId: 2
-        },
-        {
-          id: 4,
-          code: 'BR005',
-          year: 2016,
-          formationId: 3
-        },
-        {
-          id: 3,
-          code: 'BR004',
-          year: 2017,
-          formationId: 2
-        },
-        {
-          id: 4,
-          code: 'BR003',
-          year: 2017,
-          formationId: 1
-        },
-      ]
+      commit('GET_CLASSES_LOADING')
 
-      Vue.api.get('/formations', newClass)
-        .then(() => {
+      Vue.api.get('/trainingclass')
+        .then(({data}) => {
           commit('GET_CLASSES_SUCCESS', data)
         })
         .catch((err) => {
-          commit('GET_CLASSES_SUCCESS', data)
-          // commit('GET_CLASSES_FAILURE')
+          commit('GET_CLASSES_FAILURE')
           dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de la récupération des promotions' }, { root: true })
         })
     },

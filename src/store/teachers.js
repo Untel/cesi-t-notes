@@ -29,7 +29,7 @@ export default {
   actions: {
     addTeacher: ({ commit, dispatch, state }, newTeacher) => {
       commit('ADD_TEACHER_LOADING', newTeacher);
-      Vue.api.post('/class', newTeacher)
+      Vue.api.post('/teachers', newTeacher)
         .then(() => {
           commit('ADD_TEACHER_SUCCESS', newTeacher);
           dispatch('snack/openSnack', { color: 'success', message: 'L\'enseignant à bien été ajouté' }, { root: true })
@@ -42,27 +42,13 @@ export default {
     getTeachers: ({ commit, dispatch, state }, newTeacher) => {
       if (state.teachers.length > 0) return;
 
-      const data = [{
-        id: 1,
-        name: 'Yann Payet'
-      }, {
-        id: 2,
-        name: 'David Martin',
-      }, {
-        id: 3,
-        name: 'Horacio Gonzalez',
-      }, {
-        id: 4,
-        name: 'Adrien Fernandes',
-      }]
       commit('GET_TEACHERS_LOADING', newTeacher)
-      Vue.api.post('/class', newTeacher)
-        .then(() => {
+      Vue.api.get('/teachers', newTeacher)
+        .then(({data}) => {
           commit('GET_TEACHERS_SUCCESS', data)
         })
         .catch((err) => {
-          commit('GET_TEACHERS_SUCCESS', data)
-          // commit('GET_TEACHERS_FAILURE')
+          commit('GET_TEACHERS_FAILURE')
           dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de la récupération des teachers' }, { root: true })
         })
     },

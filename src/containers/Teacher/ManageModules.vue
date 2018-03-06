@@ -6,7 +6,7 @@
           <v-card-title><h4>{{ _module.name }}</h4></v-card-title>
           <v-divider></v-divider>
             <v-select
-              :items="getClassesByFormation()">
+              :items="getClassesBytraining()">
               
             </v-select>
           <v-divider></v-divider>
@@ -43,8 +43,8 @@
 
     computed: {
       ...mapState('modules', ['modules']),
-      ...mapGetters('modules', ['myModules', 'getFormationByModule']),
-      ...mapGetters('formations', ['getClassesByFormation']),
+      ...mapGetters('modules', ['myModules', 'gettrainingByModule']),
+      ...mapGetters('trainings', ['getClassesBytraining']),
       ...mapGetters('student', ['getStudentByClass']),
     },
 
