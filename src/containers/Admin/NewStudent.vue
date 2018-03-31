@@ -29,7 +29,7 @@
           ></v-text-field>
           <v-select
             label="Formation"
-            v-model="newStudent.idClass"
+            v-model="newStudent.idTrainingClass"
             :items="classes"
             :loading="getClassesLoading"
             item-text="code"

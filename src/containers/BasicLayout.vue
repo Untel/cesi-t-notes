@@ -29,13 +29,15 @@
     <v-toolbar
       app
     >
-        <pre>{{ user }}</pre>
-        <v-btn icon @click.native.stop="TOGGLE_DARK_MODE()" >
-          <v-icon>lightbulb_outline</v-icon>
-        </v-btn>
+        <!-- <pre>{{ user }}</pre> -->
+      <v-btn icon @click.native.stop="TOGGLE_DARK_MODE()" >
+        <v-icon>lightbulb_outline</v-icon>
+      </v-btn>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-spacer></v-spacer>
       <v-toolbar-title v-text="title"></v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-btn color="warning">Déconnexion</v-btn>
     </v-toolbar>
     <v-content>
       <router-view/>
@@ -71,7 +73,7 @@ export default {
         icon: 'view_module',
         roles: ['teacher'],
       }],
-      title: 'CESI'
+      title: 'CESI T Notes'
     }
   },
   methods: {

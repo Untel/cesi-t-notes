@@ -31,8 +31,8 @@ export default new Vuex.Store({
       state.user = {
         firstname: 'yolo',
         lastname: 'yala',
-        role: 'teacher',
-        idTeacher: 2,
+        role: payload.role,
+        idTeacher: 3,
       }
     },
     LOGIN_LOADING: (state, payload) => {
@@ -51,20 +51,25 @@ export default new Vuex.Store({
   
   actions: {
     login: ({ commit, dispatch, state }, credentials) => {
-      commit('LOGIN_LOADING');
-      Vue.api.post('login', credentials)
-        .then(() => {
-          commit('LOGIN_SUCCESS');
-          router.push({ path: '/' });
-        })
-        .catch(() => {
-          // TODO COMMENT HERE
-          commit('LOGIN_SUCCESS');
-          router.push({ path: '/' });
+      commit('LOGIN_LOADING', );
+
+      commit('LOGIN_SUCCESS', credentials);
+      setTimeout(() => {
+        router.push({ path: '/' });
+        dispatch('snack/openSnack', { color: 'success', message: 'Vous êtes bien connecté' })
+      }, 3000);
+      // Vue.api.post('login', credentials)
+      //   .then(() => {
+      //     commit('LOGIN_SUCCESS');
+      //     router.push({ path: '/' });
+      //   })
+      //   .catch(() => {
+      //     // TODO COMMENT HERE
+
           
-          // commit('LOGIN_FAILURE');
-          // dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue' })
-        })
+      //     // commit('LOGIN_FAILURE');
+      //     // dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue' })
+      //   })
     },
   },
 

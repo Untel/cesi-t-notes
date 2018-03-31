@@ -3,9 +3,9 @@
 
     <router-view/>
     
-    <v-footer fixed app>
+    <!-- <v-footer fixed app>
       <span>&copy; 2017</span>
-    </v-footer>
+    </v-footer> -->
 
     <v-snackbar
       :timeout="snack.timeout"

@@ -61,7 +61,7 @@ export default {
   actions: {
     addModule: ({ commit, dispatch, state }, newModule) => {
       commit('ADD_MODULE_LOADING', newModule)
-      Vue.api.post('/modules', newModule)
+      Vue.api.post('/modules', [newModule])
         .then(() => {
           commit('ADD_MODULE_SUCCESS', newModule);
           router.push('/modules')

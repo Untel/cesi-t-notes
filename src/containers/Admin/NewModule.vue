@@ -11,7 +11,7 @@
           <v-text-field
             class="ma-3"
             label="Nom du module"
-            v-model="newModule.name">
+            v-model="newModule.title">
           </v-text-field>
 
           <v-text-field
@@ -42,7 +42,7 @@
             label="Promotion"
             :items="trainings"
             :loading="getTrainingsLoading"
-            v-model="newModule.idClass"
+            v-model="newModule.idTrainingClass"
             item-text="code"
             item-value="id"
           >
@@ -79,9 +79,6 @@
       return {
         addModuleModal: false,
         newModule: {
-          name: '',
-          idTeacher: null,
-          idClass: null,
         },
       }
     },

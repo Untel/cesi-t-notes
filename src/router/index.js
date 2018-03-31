@@ -6,11 +6,16 @@ import EmptyLayout from '@/containers/EmptyLayout'
 
 import ManageClasses from '@/containers/Admin/ManageClasses'
 import ManageModules from '@/containers/Admin/ManageModules'
+
 import NewModule from '@/containers/Admin/NewModule'
 import NewClass from '@/containers/Admin/NewClass'
 import NewStudent from '@/containers/Admin/NewStudent'
 
+import ManageMarks from '@/containers/Teacher/ManageMarks'
 import MyModules from '@/containers/Teacher/ManageModules'
+
+import ShowMyMarks from '@/containers/Student/ShowMyMarks'
+
 
 
 import store from '@/store';
@@ -88,8 +93,27 @@ const router = new Router({
               name: 'TeacherMyModules',
               component: MyModules,
             },
+            {
+              path: ':idModule/class/:idClass',
+              name: 'TeacherManageMarks',
+              component: ManageMarks,
+            },
           ]
         },
+
+        {
+          path: 'mymarks',
+          component: EmptyLayout,
+          meta: { roles: ['student'] },
+          children: [
+            {
+              path: '',
+              name: 'ShowMyMarks',
+              component: ShowMyMarks,
+            },
+          ]
+        },
+
       ]
     }
   ]

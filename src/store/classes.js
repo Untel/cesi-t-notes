@@ -7,8 +7,10 @@ export default {
   state: {
     selectedStudent: null,
     getClassesLoading: false,
+    getMarksAndStudentsLoading: false,
     addClassLoading: false,    
-    classes: []
+    classes: [],
+    marksAndStudents: [],
   },
 
   mutations: {
@@ -38,6 +40,17 @@ export default {
     GET_CLASSES_FAILURE: (state) => {
       state.getClassesLoading = false
     },
+
+    GET_MARKS_AND_STUDENTS_BY_MODULE_LOADING: (state) => {
+      state.getMarksAndStudentsLoading = true
+    },
+    GET_MARKS_AND_STUDENTS_BY_MODULE_SUCCESS: (state, payload) => {
+      state.marksAndStudents = payload;
+      state.getMarksAndStudentsLoading = false
+    },
+    GET_MARKS_AND_STUDENTS_BY_MODULE_FAILURE: (state) => {
+      state.getMarksAndStudentsLoading = false
+    },
   },
 
   getters: {
@@ -66,13 +79,30 @@ export default {
       commit('GET_CLASSES_LOADING')
 
       Vue.api.get('/trainingclass')
-        .then(({data}) => {
+        .then(({ data }) => {
           commit('GET_CLASSES_SUCCESS', data)
         })
         .catch((err) => {
           commit('GET_CLASSES_FAILURE')
           dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de la récupération des promotions' }, { root: true })
         })
+    },
+
+    getMarksAndStudents: ({ commit, dispatch, state }, { idModule, idClass }) => {
+      if (state.marksAndStudents.length > 0) return;
+
+      commit('GET_MARKS_AND_STUDENTS_BY_MODULE_LOADING')
+
+      Vue.api.get(`/trainingclassmarks/${idModule}/${idClass}`)
+        .then(({ data }) => {
+          console.log(data)
+          commit('GET_MARKS_AND_STUDENTS_BY_MODULE_SUCCESS', data)
+        })
+        .catch((err) => {
+          console.log(err);
+          commit('GET_MARKS_AND_STUDENTS_BY_MODULE_FAILURE')
+          dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de la récupération des promotions' }, { root: true })
+        });
     },
   },
 }

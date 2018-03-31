@@ -5,6 +5,9 @@ export default {
   namespaced: true,
   state: {
     getStudentsLoading: false,
+    addStudentLoading: false,
+    getMyMarksLoading: false,
+    myMarks: [],
     students: [],
   },
 
@@ -30,6 +33,17 @@ export default {
     GET_STUDENTS_FAILURE: (state) => {
       state.getStudentsLoading = false
     },
+    GET_MY_MARKS_LOADING: (state) => {
+      console.log('Gettings marks')
+      state.getMyMarksLoading = true
+    },
+    GET_MY_MARKS_SUCCESS: (state, payload) => {
+      state.students = payload;
+      state.getMyMarksLoading = false
+    },
+    GET_MY_MARKS_FAILURE: (state) => {
+      state.getMyMarksLoading = false
+    },
   },
 
   getters: {
@@ -48,7 +62,7 @@ export default {
 
   actions: {
     addStudent: ({ commit, dispatch, state }, newStudent) => {
-      commit('ADD_STUDENT_LOADING', newStudent);
+      commit('ADD_STUDENT_LOADING', [newStudent]);
       Vue.api.post('/students', newStudent)
         .then(() => {
           router.push({ path: '/' })
@@ -60,7 +74,7 @@ export default {
           dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de l\'ajout de l\'enseignant' }, { root: true })
         })
     },
-    getStudents: ({ commit, dispatch, state }, newStudent) => {
+    getStudents: ({ commit, dispatch, state }) => {
       if (state.students.length > 0) return;
 
       commit('GET_STUDENTS_LOADING')
@@ -70,7 +84,19 @@ export default {
         })
         .catch((err) => {
           commit('GET_STUDENTS_FAILURE')
-          dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de la récupération des students' }, { root: true })
+          dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de la récupération des étudiants' }, { root: true })
+        })
+    },
+    getMyMarks: ({ commit, dispatch, state }) => {
+      if (state.myMarks.length > 0) return;
+      commit('GET_MY_MARKS_LOADING')
+      Vue.api.get('/studentsmarks/1')
+        .then(({ data }) => {
+          commit('GET_MY_MARKS_SUCCESS', data.marks)
+        })
+        .catch((err) => {
+          commit('GET_MY_MARKS_FAILURE')
+          dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de la récupération de vos notes' }, { root: true })
         })
     },
   },

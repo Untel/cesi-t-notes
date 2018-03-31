@@ -1,9 +1,12 @@
 <template>
   <v-layout column>
     <v-layout column v-for="_module in myModules" v-bind:key="_module.idModule">
+
       <v-layout row v-for="training in getTrainingsByModule(_module.idModule)" v-bind:key="training.id">
+        
         <v-flex class="ma-2" v-for="_class in getClassesByTraining(training.id)" v-bind:key="_class.id">
-          <v-card>
+          
+          <v-card router :to="`/mymodules/1/class/1`">
             <v-card-title>
               Module: {{ _module.title }}
             </v-card-title>
