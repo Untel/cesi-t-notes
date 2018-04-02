@@ -33,12 +33,12 @@ const router = new Router({
       path: '',
       name: 'Application',
       component: BasicLayout,
-      meta: { roles: ['admin', 'teacher', 'student'] },
+      meta: { roles: ['Admin', 'Teacher', 'Student'] },
       children: [
         {
           path: 'classes',
           component: EmptyLayout,
-          meta: { roles: ['admin'] },
+          meta: { roles: ['Admin'] },
           children: [
             {
               path: '',
@@ -55,7 +55,7 @@ const router = new Router({
         {
           path: 'modules',
           component: EmptyLayout,
-          meta: { roles: ['admin'] },
+          meta: { roles: ['Admin'] },
           children: [
             {
               path: '',
@@ -73,7 +73,7 @@ const router = new Router({
         {
           path: 'students',
           component: EmptyLayout,
-          meta: { roles: ['admin'] },
+          meta: { roles: ['Admin'] },
           children: [
             {
               path: 'new',
@@ -86,7 +86,7 @@ const router = new Router({
         {
           path: 'mymodules',
           component: EmptyLayout,
-          meta: { roles: ['teacher'] },
+          meta: { roles: ['Teacher'] },
           children: [
             {
               path: '',
@@ -104,7 +104,7 @@ const router = new Router({
         {
           path: 'mymarks',
           component: EmptyLayout,
-          meta: { roles: ['student'] },
+          meta: { roles: ['Student'] },
           children: [
             {
               path: '',
@@ -120,6 +120,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
+  console.log('Check if allowed')
   const hasToBeChecked = to.matched.find(m => m.meta.roles)
   if (hasToBeChecked) {
     if (store.getters.isAllowed(hasToBeChecked.meta.roles)) {

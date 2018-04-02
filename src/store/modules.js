@@ -56,6 +56,11 @@ export default {
         return []
       }
     },
+
+    getModuleById: (state, getters, rootState) => (id) => {
+      const _module = state.modules.find(m => m.id === parseInt(id, 10));
+      return _module || { title: 'N/A' };
+    }
   },
   
   actions: {

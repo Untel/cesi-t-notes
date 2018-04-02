@@ -37,7 +37,7 @@
       <v-spacer></v-spacer>
       <v-toolbar-title v-text="title"></v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn color="warning">Déconnexion</v-btn>
+      <v-btn color="warning" @click.native.stop="LOGOUT()">Déconnexion</v-btn>
     </v-toolbar>
     <v-content>
       <router-view/>
@@ -53,31 +53,31 @@ export default {
     return {
       drawer: true,
       menu: [{
-        name: 'Acceuil',
-        path: '/',
+        name: 'Mes notes',
+        path: '/mymarks',
         icon: 'dashboard',
-        roles: ['admin', 'teacher', 'student'],
+        roles: ['Student'],
       }, {
         name: 'Promotions',
         path: '/classes',
         icon: 'person',
-        roles: ['admin'],
+        roles: ['Admin'],
       }, {
         name: 'Modules',
         path: '/modules',
         icon: 'view_module',
-        roles: ['admin'],
+        roles: ['Admin'],
       }, {
         name: 'Modules',
         path: '/mymodules',
         icon: 'view_module',
-        roles: ['teacher'],
+        roles: ['Teacher'],
       }],
       title: 'CESI T Notes'
     }
   },
   methods: {
-    ...mapMutations(['TOGGLE_DARK_MODE']),
+    ...mapMutations(['TOGGLE_DARK_MODE', 'LOGOUT']),
   },
   computed: {
     ...mapGetters(['isAllowed']),

@@ -38,7 +38,7 @@ export default {
       state.getMyMarksLoading = true
     },
     GET_MY_MARKS_SUCCESS: (state, payload) => {
-      state.students = payload;
+      state.myMarks = payload;
       state.getMyMarksLoading = false
     },
     GET_MY_MARKS_FAILURE: (state) => {
@@ -57,6 +57,34 @@ export default {
     },
     getStudentsByClass: (state, getters) => (idClass) => {
       return state.students.filter(s => s.idClass === idClass)
+    },
+    hiddenMark: (state, getters) => (note) => {
+      if (note === null || note === undefined) return {
+        value: 'N/A',
+        color: 'default'
+      }
+      switch(true) {
+        case note > 16 :  return {
+          value: 'A',
+          color: 'success'
+        }
+        case note > 12  :  return {
+          value: 'B',
+          color: 'primary'
+        }
+        case note > 8 :  return {
+          value: 'C',
+          color: 'warning'
+        }
+        case note < 8 && note >= 0 : return {
+          value: 'D',
+          color: 'error'
+        }
+        default: return {
+          value: 'abs',
+          color: 'default'
+        };
+      }
     }
   },
 
@@ -87,10 +115,10 @@ export default {
           dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de la récupération des étudiants' }, { root: true })
         })
     },
-    getMyMarks: ({ commit, dispatch, state }) => {
+    getMyMarks: ({ commit, dispatch, state, rootState }) => {
       if (state.myMarks.length > 0) return;
       commit('GET_MY_MARKS_LOADING')
-      Vue.api.get('/studentsmarks/1')
+      Vue.api.get(`/studentsmarks/${/*rootState.user.id*/1}`)
         .then(({ data }) => {
           commit('GET_MY_MARKS_SUCCESS', data.marks)
         })

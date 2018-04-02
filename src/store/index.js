@@ -13,13 +13,14 @@ import trainings from './trainings'
 Vue.use(Vuex)
 
 const debug = true
-
+const storedUser = JSON.parse(localStorage.getItem('user'));
+console.log('Is still logged in', storedUser)
 export default new Vuex.Store({
   state: {
     loading: false,
     isDark: false,
-    isLoggedIn: false,
-    user: null,
+    isLoggedIn: !!storedUser,
+    user: storedUser ? storedUser : null,
   },
 
   mutations: {
@@ -27,49 +28,47 @@ export default new Vuex.Store({
       state.loading = false
     },
     LOGIN_SUCCESS: (state, payload) => {
+      localStorage.setItem('user', JSON.stringify(payload));
       state.isLoggedIn = true
-      state.user = {
-        firstname: 'yolo',
-        lastname: 'yala',
-        role: payload.role,
-        idTeacher: 3,
-      }
+      state.user = payload;
     },
     LOGIN_LOADING: (state, payload) => {
       state.loading = true;
     },
     TOGGLE_DARK_MODE: (state) => {
       state.isDark = !state.isDark;
+    },
+
+    LOGOUT: (state) => {
+      localStorage.removeItem('user');
+      state.user = null;
+      router.push({ path: '/login' })
     }
   },
 
   getters: {
     isAllowed: (state, getters, rootState) => (roles) => {
+      console.log('Is allowed ?', state.user, roles)
       return state.user && roles.includes(state.user.role);
     }
   },
   
   actions: {
     login: ({ commit, dispatch, state }, credentials) => {
-      commit('LOGIN_LOADING', );
-
-      commit('LOGIN_SUCCESS', credentials);
-      setTimeout(() => {
-        router.push({ path: '/' });
-        dispatch('snack/openSnack', { color: 'success', message: 'Vous êtes bien connecté' })
-      }, 3000);
-      // Vue.api.post('login', credentials)
-      //   .then(() => {
-      //     commit('LOGIN_SUCCESS');
-      //     router.push({ path: '/' });
-      //   })
-      //   .catch(() => {
-      //     // TODO COMMENT HERE
-
-          
-      //     // commit('LOGIN_FAILURE');
-      //     // dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue' })
-      //   })
+      commit('LOGIN_LOADING', )
+      Vue.api.post('/login', { login: credentials.username, password: credentials.password })
+        .then(({ data }) => {
+          const user = JSON.parse(data);
+          console.log(user);
+          commit('LOGIN_SUCCESS', user)
+          dispatch('snack/openSnack', { color: 'success', message: `Bonjour ${user.firstname}` })
+          console.log('Will redirect')
+          router.push({ path: '/' })
+        })
+        .catch(error => {
+          console.log('Err at login', error);
+          dispatch('snack/openSnack', { color: 'error', message: 'Une érreure s\'est produite' });
+        });
     },
   },
 

@@ -5,28 +5,29 @@
         <h4>Mes notes</h4>
       </v-card-title>
       <v-card-text>
+        <v-layout column v-if="!(myMarksLoading && modulesLoading)">
 
-        <v-layout column>
-
-        <v-card-text>
-          <div dense class="scrollable-list">
-            <div v-for="mark in myMarks" v-bind:key="mark.id">
-              <v-layout row align-center>
-                <b  class="ma-2">
-                  <!-- {{ _student.firstname }}
-                  {{ _student.name }}  -->
-                  <v-text-field label="Note" type="number" v-model="mark.note">
-                  </v-text-field>
-                </b>
-                <v-flex row>
-                  <v-text-field class="ma-2" rows="2" textarea label="Commentaire" v-model="mark.comment">
-                  </v-text-field>
-                </v-flex>
-              </v-layout>
-              <v-divider></v-divider>
-            </div>
-        </div>
-      </v-card-text>
+            <div dense class="scrollable-list">
+              <div v-for="mark in myMarks" v-bind:key="mark.id">
+                <v-layout row align-center>
+                  <v-layout column>
+                    <div class="ma-2">
+                      Module: <b>{{ getModuleById(mark.idModule).title }}</b>
+                    </div>
+                    <div class="ma-2">
+                      Note: <v-avatar size="30" :color="hiddenMark(mark.note).color" style="font-size: 15px;">
+                        {{ hiddenMark(mark.note).value }}
+                      </v-avatar>
+                    </div>
+                  </v-layout>
+                  <v-flex row>
+                    <v-text-field readonly class="ma-2" rows="2" textarea label="Commentaire" v-model="mark.comment">
+                    </v-text-field>
+                  </v-flex>
+                </v-layout>
+                <v-divider></v-divider>
+              </div>
+          </div>
 
         </v-layout>
       </v-card-text>
@@ -53,13 +54,13 @@
     },
 
     created() {
-      console.log('Data');
       this.$store.dispatch('students/getMyMarks');
       this.$store.dispatch('modules/getModules');
     },
 
     computed: {
-      // ...mapState('classes', ['classes', 'getClassesLoading']),
+      ...mapGetters('modules', ['modulesLoading', 'getModuleById']),
+      ...mapGetters('students', ['hiddenMark']),
       ...mapState('students', ['myMarksLoading', 'myMarks']),
     },
 
