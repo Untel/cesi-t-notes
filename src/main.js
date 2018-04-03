@@ -19,9 +19,9 @@ Vue.use(Vuetify, { theme: {
 }})
 
 Vue.config.productionTip = false
-
+// console.log('API URL', process.env.API_URL)
 Vue.api = Vue.prototype.$api = axios.create({ 
-  baseURL: 'http://localhost:8000/',
+  baseURL: process.env.API_URL,
   headers: {
     'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
     'Access-Control-Allow-Origin': '*',

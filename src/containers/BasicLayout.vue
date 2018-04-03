@@ -2,6 +2,7 @@
     
   <section>
     <v-navigation-drawer
+      v-if="user.role === 'Admin'"
       persistent
       v-model="drawer"
       enable-resize-watcher
@@ -33,9 +34,11 @@
       <v-btn icon @click.native.stop="TOGGLE_DARK_MODE()" >
         <v-icon>lightbulb_outline</v-icon>
       </v-btn>
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-side-icon v-if="user.role === 'Admin'" @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-spacer></v-spacer>
-      <v-toolbar-title v-text="title"></v-toolbar-title>
+        <a @click.native="goToHome()" href="javascript:void(0)"  style="height: 63px; padding: 5px">
+          <img style="height: 100%" src="/static/cesi_logo.png" alt="">
+        </a>
       <v-spacer></v-spacer>
       <v-btn color="warning" @click.native.stop="LOGOUT()">Déconnexion</v-btn>
     </v-toolbar>
@@ -76,12 +79,25 @@ export default {
       title: 'CESI T Notes'
     }
   },
+
+  created() {
+    this.goToHome();
+  },
+
   methods: {
     ...mapMutations(['TOGGLE_DARK_MODE', 'LOGOUT']),
+    goToHome: function() {
+      switch(this.user.role) {
+        case 'Student': this.$router.push({ path: '/mymarks' }); break
+        case 'Admin': this.$router.push({ path: '/modules' }); break;
+        case 'Teacher': this.$router.push({ path: '/mymodules' }); break;
+        default: this.$router.push({ path: '/login' }); break;
+      }
+    }
   },
   computed: {
-    ...mapGetters(['isAllowed']),
     ...mapState(['user']),
+    ...mapGetters(['isAllowed']),    
   },
   name: 'BasicLayout'
 }
