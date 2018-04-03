@@ -20,7 +20,7 @@ export default new Vuex.Store({
     loading: false,
     isDark: false,
     isLoggedIn: !!storedUser,
-    user: storedUser ? storedUser : null,
+    user: storedUser ? storedUser : {},
   },
 
   mutations: {
