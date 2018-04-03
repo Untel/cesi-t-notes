@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-    "start": "npm run build && cd ./dist && http-serve",
+    "install": "npm run build",
+    "start": "cd ./dist && http-serve",
     "build": "node build/build.js"
   },
   "dependencies": {
