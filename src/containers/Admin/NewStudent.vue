@@ -10,12 +10,12 @@
 
         <v-card-text>
           <v-text-field
-            label="Nom"
-            v-model="newStudent.name"
-          ></v-text-field>
-          <v-text-field
             label="Prénom"
             v-model="newStudent.firstname"
+          ></v-text-field>
+          <v-text-field
+            label="Nom"
+            v-model="newStudent.name"
           ></v-text-field>
           <v-text-field
             label="Login"

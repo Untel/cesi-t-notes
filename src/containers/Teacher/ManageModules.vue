@@ -7,7 +7,7 @@
         
         <v-flex class="ma-2" v-for="_class in getClassesByTraining(training.id)" v-bind:key="_class.id">
           
-          <v-card router :to="`/mymodules/1/class/1`">
+          <v-card router :to="`/mymodules/${_module.idModule}/class/${_class.id}`">
             <v-card-title>
               Module: {{ _module.title }}
             </v-card-title>

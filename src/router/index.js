@@ -104,7 +104,7 @@ const router = new Router({
         {
           path: 'mymodules',
           component: EmptyLayout,
-          meta: { roles: ['Teacher'] },
+          meta: { roles: ['Teachers'] },
           children: [
             {
               path: '',

@@ -79,7 +79,7 @@ export default {
         name: 'Modules',
         path: '/mymodules',
         icon: 'view_module',
-        roles: ['Teacher'],
+        roles: ['Teachers'],
       }],
       title: 'CESI T Notes'
     }
@@ -94,8 +94,8 @@ export default {
     goToHome: function() {
       switch(this.user.role) {
         case 'Student': this.$router.push({ path: '/mymarks' }); break
-        case 'Admin': this.$router.push({ path: '/modules' }); break;
-        case 'Teacher': this.$router.push({ path: '/mymodules' }); break;
+        case 'Admin': this.$router.push({ path: '/classes' }); break;
+        case 'Teachers': this.$router.push({ path: '/mymodules' }); break;
         default: this.$router.push({ path: '/login' }); break;
       }
     }

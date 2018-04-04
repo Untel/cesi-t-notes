@@ -93,9 +93,9 @@ export default {
       commit('ADD_STUDENT_LOADING', newStudent);
       Vue.api.post('/students', [newStudent])
         .then(({ data }) => {
-          router.push({ path: '/' })
           commit('ADD_STUDENT_SUCCESS', data);
           dispatch('snack/openSnack', { color: 'success', message: 'L\'enseignant à bien été ajouté' }, { root: true })
+          router.push({ path: '/classes' })
         })
         .catch(() => {
           commit('ADD_STUDENT_FAILURE');

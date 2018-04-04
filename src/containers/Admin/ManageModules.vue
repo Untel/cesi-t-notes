@@ -3,7 +3,7 @@
     <v-layout row wrap>
       <v-flex xs2 class="ma-2">
         <v-card tile height="100%">
-          <v-card-title><h4>Nouveau module</h4></v-card-title>
+          <v-card-title><h3>Nouveau module</h3></v-card-title>
           <v-divider></v-divider>
           <v-card-text class="text-xs-center">
             <v-btn router to="/modules/new" icon @click.native.stop="addClassModal = true">
@@ -15,11 +15,15 @@
       <v-flex class="ma-2" v-for="_module in modules" v-bind:key="_module.id">
         <v-card tile>
           <v-card-title>
-            <h4>{{ _module.title }}</h4>
+            <h3>{{ _module.title }}</h3>
           </v-card-title>
           <v-divider></v-divider>
           <v-card-text>
-            <div>{{ _module.content }}</div>
+            <b>Description:</b>
+            <p>{{ _module.content }}</p>
+
+            <v-divider class="mt-2 mb-2"></v-divider>
+
             <b>Enseignant:</b>
             <span 
               v-for="teacher in _module.teachers" 
