@@ -50,7 +50,7 @@ export default {
     myModules: (state, getters, rootState) => () => {
       console.log(rootState.user, getters)
       if (rootState.user.role === 'teacher' && !!rootState.user.idTeacher) {
-        return state.modules.filter(m => m.idTeacher === rootState.user.idTeacher)
+        return state.modules.filter(m => m.idTeacher === rootState.user.id)
       } else {
         console.log('No module for u')
         return []
@@ -60,6 +60,10 @@ export default {
     getModuleById: (state, getters, rootState) => (id) => {
       const _module = state.modules.find(m => m.id === parseInt(id, 10));
       return _module || { title: 'N/A' };
+    },
+
+    getModulesByTeacher: (state, getters, rootState) => (id) => {
+      return state.modules.filter(m => m.teachers.some(mt => parseInt(mt.idTeacher, 10) === parseInt(id, 10)));
     }
   },
   
@@ -67,10 +71,19 @@ export default {
     addModule: ({ commit, dispatch, state }, newModule) => {
       commit('ADD_MODULE_LOADING', newModule)
       Vue.api.post('/modules', [newModule])
-        .then(() => {
-          commit('ADD_MODULE_SUCCESS', newModule);
-          router.push('/modules')
-          dispatch('snack/openSnack', { color: 'success', message: 'Le module à bien été ajouté' }, { root: true })
+        .then(({ data }) => {
+          const _module = data[0];
+          console.log('After received', _module)
+
+          const addTeacher = Vue.api.post('/addteacher', [{ idModule: _module.id, idTeacher: newModule.idTeacher, startDate: '03-04-2018', endDate: null }])
+          const addModule = Vue.api.post('/addmodules', [{ idModule: _module.id, idTraining: newModule.idTrainingClass, startDate: '03-04-2018', endDate: null }])
+          console.log('newModule', newModule)
+          Promise.all(addModule, addTeacher)
+            .then(() => {
+              commit('ADD_MODULE_SUCCESS', {..._module, idTeacher: newModule.idTeacher, idTraining: newModule.idTrainingClass});
+              router.push('/modules')
+              dispatch('snack/openSnack', { color: 'success', message: 'Le module à bien été ajouté' }, { root: true })
+            })
         })
         .catch(() => {
           commit('ADD_MODULE_FAILURE');
@@ -78,8 +91,6 @@ export default {
         })
     },
     getModules: ({ commit, dispatch, state }) => {
-      if (state.modules.length > 0) return;
-
       commit('GET_MODULES_LOADING')
       Vue.api.get('/modules')
         .then(({data}) => {
@@ -91,10 +102,8 @@ export default {
         })
     },
     getMyModules: ({ commit, dispatch, state, rootState }) => {
-      if (state.myModules.length > 0) return;
-
       commit('GET_MY_MODULES_LOADING')
-      Vue.api.get(`/teachersmodules/${rootState.user.idTeacher}`)
+      Vue.api.get(`/teachersmodules/${rootState.user.id}`)
         .then(({data}) => {
           commit('GET_MY_MODULES_SUCCESS', data)
         })

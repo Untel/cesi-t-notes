@@ -43,8 +43,8 @@ export default {
     addTraining: ({ commit, dispatch, state }, newtraining) => {
       commit('ADD_TRAINING_LOADING', newtraining);
       Vue.api.post('/trainings')
-        .then(() => {
-          commit('ADD_TRAINING_SUCCESS', newtraining);
+        .then(({data}) => {
+          commit('ADD_TRAINING_SUCCESS', data);
           dispatch('snack/openSnack', { color: 'success', message: 'L\'enseignant à bien été ajouté' }, { root: true })
         })
         .catch(() => {
@@ -53,8 +53,6 @@ export default {
         })
     },
     getTrainings: ({ commit, dispatch, state }) => {
-      if (state.trainings.length > 0) return;
-
       commit('GET_TRAININGS_LOADING')
       Vue.api.get('/trainings')
         .then(({data}) => {

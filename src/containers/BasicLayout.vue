@@ -71,6 +71,11 @@ export default {
         icon: 'view_module',
         roles: ['Admin'],
       }, {
+        name: 'Intervenants',
+        path: '/teachers',
+        icon: 'face',
+        roles: ['Admin'],
+      }, {
         name: 'Modules',
         path: '/mymodules',
         icon: 'view_module',

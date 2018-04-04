@@ -50,7 +50,7 @@
     components: { },
     data: () => {
       return {
-        }
+      }
     },
 
     created() {

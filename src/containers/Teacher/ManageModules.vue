@@ -1,5 +1,6 @@
 <template>
   <v-layout column>
+    <!-- <pre>{{ myModules }}</pre> -->
     <v-layout column v-for="_module in myModules" v-bind:key="_module.idModule">
 
       <v-layout row v-for="training in getTrainingsByModule(_module.idModule)" v-bind:key="training.id">
@@ -46,6 +47,7 @@
 
     created() {
       this.$store.dispatch('modules/getMyModules');
+      this.$store.dispatch('modules/getModules');
       this.$store.dispatch('trainings/getTrainings');
       this.$store.dispatch('classes/getClasses');
       this.$store.dispatch('students/getStudents');

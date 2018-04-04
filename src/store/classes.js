@@ -63,9 +63,9 @@ export default {
     addClass: ({ commit, dispatch, state }, newClass) => {
       commit('ADD_CLASS_LOADING', newClass);
       Vue.api.post('/trainingclass', [newClass])
-        .then(() => {
+        .then(({data}) => {
           router.push({ path: '/classes' })
-          commit('ADD_CLASS_SUCCESS', newClass);
+          commit('ADD_CLASS_SUCCESS', data);
           dispatch('snack/openSnack', { color: 'success', message: 'La promotion à bien été ajouté' }, { root: true })
         })
         .catch(() => {
@@ -74,8 +74,6 @@ export default {
         })
     },
     getClasses: ({ commit, dispatch, state }, newClass) => {
-      if (state.classes.length > 0) return;
-
       commit('GET_CLASSES_LOADING')
 
       Vue.api.get('/trainingclass')
@@ -89,8 +87,6 @@ export default {
     },
 
     getMarksAndStudents: ({ commit, dispatch, state }, { idModule, idClass }) => {
-      if (state.marksAndStudents.length > 0) return;
-
       commit('GET_MARKS_AND_STUDENTS_BY_MODULE_LOADING')
 
       Vue.api.get(`/trainingclassmarks/${idModule}/${idClass}`)

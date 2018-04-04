@@ -90,11 +90,11 @@ export default {
 
   actions: {
     addStudent: ({ commit, dispatch, state }, newStudent) => {
-      commit('ADD_STUDENT_LOADING', [newStudent]);
-      Vue.api.post('/students', newStudent)
-        .then(() => {
+      commit('ADD_STUDENT_LOADING', newStudent);
+      Vue.api.post('/students', [newStudent])
+        .then(({ data }) => {
           router.push({ path: '/' })
-          commit('ADD_STUDENT_SUCCESS', newStudent);
+          commit('ADD_STUDENT_SUCCESS', data);
           dispatch('snack/openSnack', { color: 'success', message: 'L\'enseignant à bien été ajouté' }, { root: true })
         })
         .catch(() => {
@@ -103,8 +103,6 @@ export default {
         })
     },
     getStudents: ({ commit, dispatch, state }) => {
-      if (state.students.length > 0) return;
-
       commit('GET_STUDENTS_LOADING')
       Vue.api.get('/students')
         .then(({data}) => {
@@ -116,9 +114,8 @@ export default {
         })
     },
     getMyMarks: ({ commit, dispatch, state, rootState }) => {
-      if (state.myMarks.length > 0) return;
       commit('GET_MY_MARKS_LOADING')
-      Vue.api.get(`/studentsmarks/${/*rootState.user.id*/1}`)
+      Vue.api.get(`/studentsmarks/${rootState.user.id}`)
         .then(({ data }) => {
           commit('GET_MY_MARKS_SUCCESS', data.marks)
         })

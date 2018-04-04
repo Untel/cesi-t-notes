@@ -39,7 +39,7 @@
 
           <v-select
             class="ma-3"
-            label="Promotion"
+            label="Formation"
             :items="trainings"
             :loading="getTrainingsLoading"
             v-model="newModule.idTrainingClass"

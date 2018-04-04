@@ -20,7 +20,12 @@
           <v-divider></v-divider>
           <v-card-text>
             <div>{{ _module.content }}</div>
-            <b>Enseignant:</b> {{ getTeacherNameById(_module.idTeacher) }}
+            <b>Enseignant:</b>
+            <span 
+              v-for="teacher in _module.teachers" 
+              v-bind:key="teacher.idTeacher">
+              {{ getTeacherNameById(teacher.idTeacher) }},&nbsp;
+            </span>
           </v-card-text>
         </v-card>
       </v-flex>
