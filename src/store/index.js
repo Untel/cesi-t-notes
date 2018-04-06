@@ -67,7 +67,7 @@ export default new Vuex.Store({
         })
         .catch(error => {
           console.log('Err at login', error);
-          dispatch('snack/openSnack', { color: 'error', message: 'Une érreure s\'est produite' });
+          dispatch('snack/openSnack', { color: 'error', message: 'Une erreure s\'est produite' });
         });
     },
   },

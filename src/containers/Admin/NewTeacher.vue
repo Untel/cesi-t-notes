@@ -29,7 +29,7 @@
             :append-icon-cb="generatePassword"
           ></v-text-field>
 
-          <v-select
+          <!-- <v-select
             label="Modules"
             multiple
             :items="modules"
@@ -38,8 +38,7 @@
             item-value="id"
             item-text="title"
             >
-            </v-select>
-            {{ newTeacher.modules}}
+            </v-select> -->
         </v-layout>
       </v-card-text>
 

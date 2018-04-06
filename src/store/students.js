@@ -94,12 +94,12 @@ export default {
       Vue.api.post('/students', [newStudent])
         .then(({ data }) => {
           commit('ADD_STUDENT_SUCCESS', data);
-          dispatch('snack/openSnack', { color: 'success', message: 'L\'enseignant à bien été ajouté' }, { root: true })
+          dispatch('snack/openSnack', { color: 'success', message: 'L\'étudiant à bien été ajouté' }, { root: true })
           router.push({ path: '/classes' })
         })
         .catch(() => {
           commit('ADD_STUDENT_FAILURE');
-          dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de l\'ajout de l\'enseignant' }, { root: true })
+          dispatch('snack/openSnack', { color: 'error', message: 'Une erreur est survenue lors de l\'ajout de l\'étudiant' }, { root: true })
         })
     },
     getStudents: ({ commit, dispatch, state }) => {
@@ -110,7 +110,7 @@ export default {
         })
         .catch((err) => {
           commit('GET_STUDENTS_FAILURE')
-          dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de la récupération des étudiants' }, { root: true })
+          dispatch('snack/openSnack', { color: 'error', message: 'Une erreur est survenue lors de la récupération des étudiants' }, { root: true })
         })
     },
     getMyMarks: ({ commit, dispatch, state, rootState }) => {
@@ -121,7 +121,7 @@ export default {
         })
         .catch((err) => {
           commit('GET_MY_MARKS_FAILURE')
-          dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de la récupération de vos notes' }, { root: true })
+          dispatch('snack/openSnack', { color: 'error', message: 'Une erreur est survenue lors de la récupération de vos notes' }, { root: true })
         })
     },
   },

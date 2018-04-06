@@ -70,7 +70,7 @@ export default {
         })
         .catch(() => {
           commit('ADD_CLASS_FAILURE');
-          dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de l\'ajout de la promotion' }, { root: true })
+          dispatch('snack/openSnack', { color: 'error', message: 'Une erreur est survenue lors de l\'ajout de la promotion' }, { root: true })
         })
     },
     getClasses: ({ commit, dispatch, state }, newClass) => {
@@ -82,7 +82,7 @@ export default {
         })
         .catch((err) => {
           commit('GET_CLASSES_FAILURE')
-          dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de la récupération des promotions' }, { root: true })
+          dispatch('snack/openSnack', { color: 'error', message: 'Une erreur est survenue lors de la récupération des promotions' }, { root: true })
         })
     },
 
@@ -97,7 +97,7 @@ export default {
         .catch((err) => {
           console.log(err);
           commit('GET_MARKS_AND_STUDENTS_BY_MODULE_FAILURE')
-          dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de la récupération des promotions' }, { root: true })
+          dispatch('snack/openSnack', { color: 'error', message: 'Une erreur est survenue lors de la récupération des promotions' }, { root: true })
         });
     },
   },

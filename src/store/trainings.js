@@ -49,7 +49,7 @@ export default {
         })
         .catch(() => {
           commit('ADD_TRAINING_FAILURE');
-          dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de l\'ajout de la formation' }, { root: true })
+          dispatch('snack/openSnack', { color: 'error', message: 'Une erreur est survenue lors de l\'ajout de la formation' }, { root: true })
         })
     },
     getTrainings: ({ commit, dispatch, state }) => {
@@ -60,7 +60,7 @@ export default {
         })
         .catch((err) => {
           commit('GET_TRAININGS_FAILURE')
-          dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de la récupération des formations' }, { root: true })
+          dispatch('snack/openSnack', { color: 'error', message: 'Une erreur est survenue lors de la récupération des formations' }, { root: true })
         })
     },
   },

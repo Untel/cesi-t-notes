@@ -60,7 +60,7 @@ export default {
         })
         .catch(() => {
           commit('ADD_TEACHER_FAILURE');
-          dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de l\'ajout de l\'enseignant' }, { root: true })
+          dispatch('snack/openSnack', { color: 'error', message: 'Une erreur est survenue lors de l\'ajout de l\'enseignant' }, { root: true })
         })
     },
     getTeachers: ({ commit, dispatch, state }, newTeacher) => {
@@ -71,7 +71,7 @@ export default {
         })
         .catch((err) => {
           commit('GET_TEACHERS_FAILURE')
-          dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de la récupération des enseignants' }, { root: true })
+          dispatch('snack/openSnack', { color: 'error', message: 'Une erreur est survenue lors de la récupération des enseignants' }, { root: true })
         })
     },
 
@@ -86,7 +86,7 @@ export default {
         })
         .catch((err) => {
           commit('ADD_MARK_ENDED')
-          dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de la sauvegarde des notes' }, { root: true })
+          dispatch('snack/openSnack', { color: 'error', message: 'Une erreur est survenue lors de la sauvegarde des notes' }, { root: true })
         })
     },
   },

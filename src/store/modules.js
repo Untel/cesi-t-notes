@@ -87,7 +87,7 @@ export default {
         })
         .catch(() => {
           commit('ADD_MODULE_FAILURE');
-          dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de l\'ajout du module' }, { root: true })
+          dispatch('snack/openSnack', { color: 'error', message: 'Une erreur est survenue lors de l\'ajout du module' }, { root: true })
         })
     },
     getModules: ({ commit, dispatch, state }) => {
@@ -98,7 +98,7 @@ export default {
         })
         .catch((err) => {
           commit('GET_MODULES_FAILURE')
-          dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de la récupération des modules' }, { root: true })
+          dispatch('snack/openSnack', { color: 'error', message: 'Une erreur est survenue lors de la récupération des modules' }, { root: true })
         })
     },
     getMyModules: ({ commit, dispatch, state, rootState }) => {
@@ -109,7 +109,7 @@ export default {
         })
         .catch((err) => {
           commit('GET_MY_MODULES_FAILURE')
-          dispatch('snack/openSnack', { color: 'error', message: 'Une érreur est survenue lors de la récuparation de vos modules' }, { root: true })
+          dispatch('snack/openSnack', { color: 'error', message: 'Une erreur est survenue lors de la récuparation de vos modules' }, { root: true })
         })
     },
   },
